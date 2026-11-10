@@ -41,21 +41,26 @@ infected that can exist at once.
 
 ---
 
-## Install
+## Install (no tools needed)
 
-1. **Pack the PBO.** Pack `Source/FeralHordes` into `@FeralHordes/Addons/FeralHordes.pbo`
-   with *DayZ Tools → Addon Builder*, PBO Manager or Mikero's pboProject. The prefix is
-   `FeralHordes` (the `$PBOPREFIX$` file already says so).
-2. Copy the `@FeralHordes` folder into your DayZ server's root folder.
-3. Add it as a **server mod** in the launch parameters:
-   ```
-   -serverMod=@FeralHordes
-   ```
-   (Put it in `-mod=` instead only if you also want clients to load it. They don't need to.)
-4. Start the server once. It writes `profiles/FeralHordes/config.json` (wherever your
-   `-profiles=` points). Edit it, then restart.
+The mod is **already packed** for you: `@FeralHordes/Addons/FeralHordes.pbo`.
+A PBO is just DayZ's archive format (like a .zip) that holds a mod's files.
 
-`examples/config.json` shows the full default file.
+1. Download **`FeralHordes_ready.zip`** from this folder and unzip it. You get a folder named `@FeralHordes`.
+2. Copy `@FeralHordes` into your DayZ **server's** main folder (the one with `DayZServer_x64.exe`).
+3. Add `-serverMod=@FeralHordes` to the server's launch parameters.
+   - **Your own PC server:** in the shortcut or `.bat` that starts `DayZServer_x64.exe`, add it after the other parameters.
+   - **Rented server (Nitrado, GTXGaming, etc.):** upload `@FeralHordes` with the host's file manager or FTP,
+     then put `@FeralHordes` in the "server mods" / `-serverMod` field of their control panel.
+     (Console servers on PlayStation/Xbox can't run script mods.)
+4. Start the server once. It creates `profiles/FeralHordes/config.json`. Edit it if you want, then restart.
+
+Players don't download anything. Only the server loads it.
+
+### Re-packing after you change the scripts (optional)
+- **Easy way:** `python3 tools/pack_pbo.py Source/FeralHordes @FeralHordes/Addons/FeralHordes.pbo`
+- **Official way:** install **DayZ Tools** (free on Steam, under *Library → Tools*), open **Addon Builder**,
+  set *Addon source directory* to `Source/FeralHordes`, *Destination* to `@FeralHordes/Addons`, and click **Pack**.
 
 ---
 
@@ -151,6 +156,8 @@ Source/FeralHordes/
     FH_PlayerBase.c                  extra damage from infected
   Scripts/5_Mission/FeralHordes/
     FH_MissionServer.c               starts/stops the manager
-@FeralHordes/                        drop-in server mod folder (put the packed PBO in Addons/)
+@FeralHordes/                        drop-in server mod folder (PBO already packed)
+FeralHordes_ready.zip                @FeralHordes zipped for download
+tools/pack_pbo.py                    re-pack the PBO without DayZ Tools
 examples/config.json                 full default config
 ```

@@ -362,7 +362,7 @@ class FH_Horde
 	// -----------------------------------------------------------------
 	void TriggerFrenzy(PlayerBase target, FH_HordeManager mgr)
 	{
-		if (!target || !target.IsAlive())
+		if (!target || !target.IsAlive() || mgr.IsInSafeZone(target.GetPosition()))
 			return;
 
 		if (m_State != FH_HordeState.FRENZY)
@@ -381,7 +381,7 @@ class FH_Horde
 	// A screamer (or anything else) summons this horde to a position.
 	void CallTo(vector pos, FH_HordeManager mgr)
 	{
-		if (m_State == FH_HordeState.FRENZY)
+		if (m_State == FH_HordeState.FRENZY || mgr.IsInSafeZone(pos))
 			return;
 		m_HasCall = true;
 		m_CallPos = pos;
@@ -400,7 +400,7 @@ class FH_Horde
 
 		if (m_FrenzyTarget)
 		{
-			if (!m_FrenzyTarget.IsAlive() || FH_Util.Dist2D(m_FrenzyTarget.GetPosition(), m_Pos) > hs.FrenzyMaxChaseDistance)
+			if (!m_FrenzyTarget.IsAlive() || FH_Util.Dist2D(m_FrenzyTarget.GetPosition(), m_Pos) > hs.FrenzyMaxChaseDistance || mgr.IsInSafeZone(m_FrenzyTarget.GetPosition()))
 				m_FrenzyTarget = null;
 		}
 

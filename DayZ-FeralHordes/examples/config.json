@@ -187,5 +187,15 @@
         "SizeMax": 45,
         "SpawnDistance": 260.0,
         "MaxLifetimeMinutes": 30.0
-    }
+    },
+    "SafeZones": [
+        {
+            "Name": "Home Base",
+            "Map": "chernarusplus",
+            "Enabled": true,
+            "X": 3367,
+            "Z": 6484,
+            "Radius": 200
+        }
+    ]
 }

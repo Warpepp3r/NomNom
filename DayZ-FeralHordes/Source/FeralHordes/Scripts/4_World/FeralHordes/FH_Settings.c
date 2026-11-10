@@ -50,6 +50,29 @@ class FH_HordeDef
 	}
 }
 
+// Inside a safe zone: no roaming hordes spawn on you, hunting hordes give up at the edge,
+// and the heightened senses / swarm calls are off. Vanilla infected still behave as usual.
+class FH_SafeZone
+{
+	string Name;
+	string Map;
+	bool Enabled = true;
+	float X;
+	float Z;
+	float Radius = 200;
+
+	static FH_SafeZone Make(string name, string map, float x, float z, float radius)
+	{
+		FH_SafeZone zone = new FH_SafeZone();
+		zone.Name = name;
+		zone.Map = map;
+		zone.X = x;
+		zone.Z = z;
+		zone.Radius = radius;
+		return zone;
+	}
+}
+
 // Behaviour applied to EVERY infected on the server (CE-spawned ones too).
 class FH_AmbientSettings
 {
@@ -152,23 +175,36 @@ class FH_Settings
 	ref FH_CombatSettings Combat;
 	ref FH_HordeSettings Horde;
 	ref FH_DynamicSettings Dynamic;
+	ref array<ref FH_SafeZone> SafeZones;
 
 	static FH_Settings Load()
 	{
-		FH_Settings settings = new FH_Settings();
+		FH_Settings settings;
+		string error;
+
 		if (FileExist(PATH))
 		{
-			JsonFileLoader<FH_Settings>.JsonLoadFile(PATH, settings);
+			if (!JsonFileLoader<FH_Settings>.LoadFile(PATH, settings, error) || !settings)
+			{
+				// Keep the broken file untouched so it can be fixed by hand; run on defaults.
+				Print("[FeralHordes] ERROR reading " + PATH + ": " + error + " - using built-in defaults this run");
+				settings = new FH_Settings();
+				settings.Validate(true);
+				return settings;
+			}
 			settings.Validate(false);
 			Print("[FeralHordes] Loaded " + PATH);
 		}
 		else
 		{
+			settings = new FH_Settings();
 			settings.Validate(true);
 			if (!FileExist(DIR))
 				MakeDirectory(DIR);
-			JsonFileLoader<FH_Settings>.JsonSaveFile(PATH, settings);
-			Print("[FeralHordes] Wrote default config to " + PATH);
+			if (JsonFileLoader<FH_Settings>.SaveFile(PATH, settings, error))
+				Print("[FeralHordes] Wrote default config to " + PATH);
+			else
+				Print("[FeralHordes] ERROR writing " + PATH + ": " + error);
 		}
 		return settings;
 	}
@@ -183,6 +219,14 @@ class FH_Settings
 			Horde = new FH_HordeSettings();
 		if (!Dynamic)
 			Dynamic = new FH_DynamicSettings();
+
+		if (!SafeZones)
+		{
+			if (fresh)
+				SafeZones = DefaultSafeZones();
+			else
+				SafeZones = new array<ref FH_SafeZone>;
+		}
 
 		if (!Horde.Classnames || Horde.Classnames.Count() == 0)
 			Horde.Classnames = DefaultClassnames();
@@ -222,6 +266,13 @@ class FH_Settings
 		if (value > max)
 			return max;
 		return value;
+	}
+
+	static array<ref FH_SafeZone> DefaultSafeZones()
+	{
+		array<ref FH_SafeZone> list = new array<ref FH_SafeZone>;
+		list.Insert(FH_SafeZone.Make("Home Base", "chernarusplus", 3367, 6484, 200));
+		return list;
 	}
 
 	static array<string> DefaultClassnames()

@@ -20,6 +20,7 @@ class FH_HordeManager
 	protected float m_DynamicTimer;
 	protected int m_NextId;
 	protected string m_WorldName;
+	protected ref array<ref FH_SafeZone> m_SafeZones;
 
 	// -----------------------------------------------------------------
 	static void Start()
@@ -50,6 +51,7 @@ class FH_HordeManager
 		m_PlayerSpeeds = new array<float>;
 		m_LastPlayerPos = new map<int, vector>;
 		m_LastSenseNoise = new map<int, int>;
+		m_SafeZones = new array<ref FH_SafeZone>;
 	}
 
 	protected void Init()
@@ -63,6 +65,7 @@ class FH_HordeManager
 		m_NoiseParams.LoadFromPath("CfgFeralHordes NoiseHordeCall");
 
 		UpdateTime();
+		LoadSafeZones();
 
 		if (m_Settings.Horde.Enabled)
 			CreateStaticHordes();
@@ -82,6 +85,33 @@ class FH_HordeManager
 			h.Dematerialize(this);
 		}
 		m_Hordes.Clear();
+	}
+
+	protected void LoadSafeZones()
+	{
+		foreach (FH_SafeZone zone : m_Settings.SafeZones)
+		{
+			if (!zone || !zone.Enabled || zone.Radius <= 0)
+				continue;
+			string zoneMap = zone.Map;
+			zoneMap.ToLower();
+			if (zoneMap != "" && zoneMap != m_WorldName)
+				continue;
+			m_SafeZones.Insert(zone);
+			Print(string.Format("[FeralHordes] Safe zone '%1' at %2 %3, radius %4m", zone.Name, zone.X, zone.Z, zone.Radius));
+		}
+	}
+
+	bool IsInSafeZone(vector pos)
+	{
+		foreach (FH_SafeZone zone : m_SafeZones)
+		{
+			float dx = pos[0] - zone.X;
+			float dz = pos[2] - zone.Z;
+			if (dx * dx + dz * dz <= zone.Radius * zone.Radius)
+				return true;
+		}
+		return false;
 	}
 
 	protected void CreateStaticHordes()
@@ -203,9 +233,16 @@ class FH_HordeManager
 		if (Math.RandomFloat01() > chance)
 			return;
 
-		PlayerBase p = m_Players.GetRandomElement();
-		if (p)
-			SpawnDynamicHordeNear(p);
+		array<PlayerBase> candidates = new array<PlayerBase>;
+		foreach (PlayerBase candidate : m_Players)
+		{
+			if (candidate && !IsInSafeZone(candidate.GetPosition()))
+				candidates.Insert(candidate);
+		}
+		if (candidates.Count() == 0)
+			return;
+
+		SpawnDynamicHordeNear(candidates.GetRandomElement());
 	}
 
 	bool SpawnDynamicHordeNear(PlayerBase p)
@@ -262,7 +299,7 @@ class FH_HordeManager
 	// Events coming from infected / players
 	void OnZombieAggro(ZombieBase z, PlayerBase target)
 	{
-		if (!z || !target)
+		if (!z || !target || IsInSafeZone(target.GetPosition()))
 			return;
 
 		FH_AmbientSettings a = m_Settings.Ambient;
@@ -286,7 +323,7 @@ class FH_HordeManager
 
 	void OnZombieHitByPlayer(ZombieBase z, PlayerBase attacker)
 	{
-		if (!z || !attacker || !m_Settings.Combat.HitAlertsHorde)
+		if (!z || !attacker || !m_Settings.Combat.HitAlertsHorde || IsInSafeZone(attacker.GetPosition()))
 			return;
 
 		FH_Horde horde = z.FH_GetHorde();
@@ -315,7 +352,7 @@ class FH_HordeManager
 	// Called by infected that noticed a player through heightened senses.
 	void SenseNoise(PlayerBase p, float strength)
 	{
-		if (!p)
+		if (!p || IsInSafeZone(p.GetPosition()))
 			return;
 
 		int now = GetGame().GetTime();

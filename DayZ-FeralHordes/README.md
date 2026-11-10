@@ -93,6 +93,13 @@ All options are in `config.json`. The most useful ones:
   coordinates**. Check them on a map and move the nests where you want them.
 - Roaming hordes (`Dynamic`) work on every map with no setup.
 
+**Safe zones** (`SafeZones`): inside one, no roaming hordes spawn on you, hunting hordes
+give up at the edge, and the extra senses and swarm calls are switched off (vanilla infected
+still act normally). The default protects the home base at X 3367 / Z 6484 with a 200 m radius.
+```json
+{ "Name": "Home Base", "Map": "chernarusplus", "Enabled": true, "X": 3367, "Z": 6484, "Radius": 200 }
+```
+
 **Night window:** `NightStartHour` / `NightEndHour` (default 20:00 to 06:00 in-game time).
 
 **Debugging:** set `"DebugLogging": true` and the server's script log will show every horde
@@ -138,7 +145,7 @@ add up to `MaxActiveZombies` on top.
 - Infected spawned by hordes come from script, not the CE, so they carry no CE loot.
 - Hordes reset to their nests on every server restart. Their state isn't saved.
 - No custom sounds, so the server-only install works. Screamers use the normal infected vocals.
-- **Not yet tested in-game.** This was written against the DayZ 1.2x script API but couldn't
+- **Not yet tested in-game.** This was written for the DayZ 1.30 script API (it uses the newer `JsonFileLoader.LoadFile/SaveFile`) but couldn't
   be compiled or run here. Expect a test-and-tune pass. If the server log reports a script
   error at startup, the file and line it names are the place to look.
 

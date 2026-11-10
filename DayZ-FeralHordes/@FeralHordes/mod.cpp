@@ -1,0 +1,9 @@
+name = "Feral Hordes";
+picture = "";
+logo = "";
+logoSmall = "";
+logoOver = "";
+tooltip = "Fast, aggressive infected and roaming hordes";
+overview = "Server-side mod: sprinting infected, swarm calls, screamers, brutes, nests that sleep by day and hordes that roam at night.";
+author = "";
+version = "1.0.0";

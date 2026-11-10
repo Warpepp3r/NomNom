@@ -1,0 +1,191 @@
+{
+    "ConfigVersion": 1,
+    "DebugLogging": false,
+    "NightStartHour": 20,
+    "NightEndHour": 6,
+    "Ambient": {
+        "Enabled": true,
+        "ChaseSpeed": 3.0,
+        "AlertedSpeedDay": 2.0,
+        "AlertedSpeedNight": 3.0,
+        "SwarmCallEnabled": true,
+        "SwarmCallStrength": 2.0,
+        "SwarmCallCooldown": 20.0,
+        "SenseEnabled": true,
+        "SenseRadiusDay": 20.0,
+        "SenseRadiusNight": 40.0,
+        "SprintSenseMultiplier": 2.0,
+        "StealthSenseMultiplier": 0.5,
+        "VehicleSenseMultiplier": 3.0,
+        "SprintSpeedThreshold": 5.0,
+        "SenseCooldown": 5.0,
+        "SenseNoiseStrength": 1.0,
+        "ScreamerChance": 0.04,
+        "ScreamerCallStrength": 6.0,
+        "ScreamerHordeRadius": 600.0,
+        "BruteChance": 0.06
+    },
+    "Combat": {
+        "DamageToPlayerMultiplier": 1.5,
+        "NightDamageMultiplier": 1.25,
+        "BruteDamageMultiplier": 2.0,
+        "ZombieToughness": 1.0,
+        "BruteToughness": 2.5,
+        "HitAlertsHorde": true
+    },
+    "Horde": {
+        "Enabled": true,
+        "MaxActiveZombies": 250,
+        "SpawnBatchSize": 6,
+        "MaterializeRadius": 350.0,
+        "DematerializeRadius": 500.0,
+        "SpreadRadius": 25.0,
+        "MoveSpeed": 1.6,
+        "CallMoveSpeedMultiplier": 2.5,
+        "WaypointReachRadius": 30.0,
+        "LureInterval": 8.0,
+        "LureStrength": 3.0,
+        "LeashDistance": 90.0,
+        "LeashHiddenDistance": 150.0,
+        "SleepInNestDuringDay": true,
+        "NestWakeRadius": 35.0,
+        "FrenzyDuration": 45.0,
+        "FrenzyPulseInterval": 3.0,
+        "FrenzyCallStrength": 8.0,
+        "FrenzyMaxChaseDistance": 400.0,
+        "FrenzySpeed": 3.0,
+        "Classnames": [
+            "ZmbM_HermitSkinny_Beige",
+            "ZmbM_HermitSkinny_Black",
+            "ZmbM_CitizenASkinny_Blue",
+            "ZmbM_CitizenASkinny_Grey",
+            "ZmbM_CitizenASkinny_Red",
+            "ZmbM_FarmerFat_Beige",
+            "ZmbM_FarmerFat_Green",
+            "ZmbM_HikerSkinny_Blue",
+            "ZmbM_HikerSkinny_Green",
+            "ZmbM_HunterOld_Autumn",
+            "ZmbM_JoggerSkinny_Blue",
+            "ZmbM_PrisonerSkinny",
+            "ZmbF_CitizenANormal_Beige",
+            "ZmbF_CitizenANormal_Blue",
+            "ZmbF_JoggerSkinny_Red",
+            "ZmbF_JoggerSkinny_Green",
+            "ZmbF_SurvivorNormal_Blue",
+            "ZmbF_SurvivorNormal_Red"
+        ],
+        "Hordes": [
+            {
+                "Name": "Sobor Woods Horde",
+                "Map": "chernarusplus",
+                "Enabled": true,
+                "Size": 35,
+                "RegrowMinutes": 90,
+                "Nest": {
+                    "X": 6550,
+                    "Z": 8250
+                },
+                "Route": [
+                    {
+                        "X": 6100,
+                        "Z": 7750
+                    },
+                    {
+                        "X": 7100,
+                        "Z": 7700
+                    },
+                    {
+                        "X": 5300,
+                        "Z": 8600
+                    }
+                ]
+            },
+            {
+                "Name": "Coastal Drifters",
+                "Map": "chernarusplus",
+                "Enabled": true,
+                "Size": 30,
+                "RegrowMinutes": 90,
+                "Nest": {
+                    "X": 8300,
+                    "Z": 3150
+                },
+                "Route": [
+                    {
+                        "X": 8000,
+                        "Z": 3250
+                    },
+                    {
+                        "X": 9800,
+                        "Z": 2350
+                    },
+                    {
+                        "X": 7300,
+                        "Z": 2900
+                    }
+                ]
+            },
+            {
+                "Name": "Airfield Pack",
+                "Map": "chernarusplus",
+                "Enabled": true,
+                "Size": 40,
+                "RegrowMinutes": 90,
+                "Nest": {
+                    "X": 4200,
+                    "Z": 10500
+                },
+                "Route": [
+                    {
+                        "X": 3800,
+                        "Z": 8900
+                    },
+                    {
+                        "X": 4600,
+                        "Z": 10200
+                    },
+                    {
+                        "X": 2700,
+                        "Z": 10000
+                    }
+                ]
+            },
+            {
+                "Name": "Berezino Swarm",
+                "Map": "chernarusplus",
+                "Enabled": true,
+                "Size": 35,
+                "RegrowMinutes": 90,
+                "Nest": {
+                    "X": 12500,
+                    "Z": 9800
+                },
+                "Route": [
+                    {
+                        "X": 12000,
+                        "Z": 9100
+                    },
+                    {
+                        "X": 10400,
+                        "Z": 9800
+                    },
+                    {
+                        "X": 12300,
+                        "Z": 10800
+                    }
+                ]
+            }
+        ]
+    },
+    "Dynamic": {
+        "Enabled": true,
+        "CheckIntervalMinutes": 8.0,
+        "ChanceDay": 0.15,
+        "ChanceNight": 0.5,
+        "MaxConcurrent": 2,
+        "SizeMin": 20,
+        "SizeMax": 45,
+        "SpawnDistance": 260.0,
+        "MaxLifetimeMinutes": 30.0
+    }
+}

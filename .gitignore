@@ -338,3 +338,5 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+# Day Trader skill working data (config, plans, orders)
+trader/

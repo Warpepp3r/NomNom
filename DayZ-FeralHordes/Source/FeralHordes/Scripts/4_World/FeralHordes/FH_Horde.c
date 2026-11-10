@@ -15,7 +15,7 @@ enum FH_HordeState
 	FRENZY      // hunting a player
 }
 
-class FH_Horde
+class FH_Horde : Managed
 {
 	int m_Id;
 	string m_Name;

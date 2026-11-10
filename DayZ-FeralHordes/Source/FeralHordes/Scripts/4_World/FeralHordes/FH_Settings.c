@@ -32,11 +32,11 @@ class FH_HordeDef
 	ref FH_Point Nest;
 	ref array<ref FH_Point> Route;
 
-	static FH_HordeDef Make(string name, string map, int size, float nestX, float nestZ)
+	static FH_HordeDef Make(string name, string mapName, int size, float nestX, float nestZ)
 	{
 		FH_HordeDef def = new FH_HordeDef();
 		def.Name = name;
-		def.Map = map;
+		def.Map = mapName;
 		def.Size = size;
 		def.Nest = new FH_Point(nestX, nestZ);
 		def.Route = new array<ref FH_Point>;
@@ -61,11 +61,11 @@ class FH_SafeZone
 	float Z;
 	float Radius = 200;
 
-	static FH_SafeZone Make(string name, string map, float x, float z, float radius)
+	static FH_SafeZone Make(string name, string mapName, float x, float z, float radius)
 	{
 		FH_SafeZone zone = new FH_SafeZone();
 		zone.Name = name;
-		zone.Map = map;
+		zone.Map = mapName;
 		zone.X = x;
 		zone.Z = z;
 		zone.Radius = radius;
